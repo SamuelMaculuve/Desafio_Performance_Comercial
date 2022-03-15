@@ -14,6 +14,10 @@ class ConsultorController extends Controller
      */
     public function con_desempenho_sub(Request $request)
     {
+        $this->validador($request);
+
+        $consultores = $this->consultores_lista();
+        $consultores_activos = $request->consultores;
         $date_inicio = $request->date_inicio;
         $date_fim = $request->date_fim;
 
@@ -24,7 +28,7 @@ class ConsultorController extends Controller
             $rel_consultores = $this->rel_consultores($request);
 //             $this->rel_consultores($request);
 //
-            return view('consultor.relatorio',compact('rel_consultores','lista_mes','date_inicio','date_fim'));
+            return view('consultor.relatorio',compact('rel_consultores','lista_mes','date_inicio','date_fim','consultores','consultores_activos'));
 
         }elseif ($request->submitAction == "pizza"){
 
@@ -50,16 +54,8 @@ class ConsultorController extends Controller
     {
         $date_inicio = '2007-01';
         $date_fim = '2007-12';
-        $consultores =  DB::table('cao_usuario')
-            ->join('permissao_sistema', function($join)
-            {
-                $join->on('cao_usuario.co_usuario', '=','permissao_sistema.co_usuario')
-                    ->where('permissao_sistema.co_sistema', '=', 1)
-                    ->where('permissao_sistema.in_ativo', '=', 'S')
-                    ->whereIn('permissao_sistema.co_tipo_usuario', array(1, 2, 3));
-            })
-            ->select('cao_usuario.co_usuario', 'cao_usuario.no_usuario')
-            ->get();
+
+        $consultores =  $this->consultores_lista();
 
         return view('consultor.con_desempenho',compact('consultores', 'date_inicio','date_fim'));
 
@@ -165,5 +161,29 @@ class ConsultorController extends Controller
 
         return  [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "junho", "julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
 
+    }
+    public function consultores_lista()
+    {
+        $consultores =  DB::table('cao_usuario')
+            ->join('permissao_sistema', function($join)
+            {
+                $join->on('cao_usuario.co_usuario', '=','permissao_sistema.co_usuario')
+                    ->where('permissao_sistema.co_sistema', '=', 1)
+                    ->where('permissao_sistema.in_ativo', '=', 'S')
+                    ->whereIn('permissao_sistema.co_tipo_usuario', array(1, 2, 3));
+            })
+            ->select('cao_usuario.co_usuario', 'cao_usuario.no_usuario')
+            ->get();
+
+            return $consultores;
+    }
+
+    public function validador($request){
+        $request->validate([
+            'date_inicio' => 'required|date|after:date',
+            'date_fim' => 'required|date|after:date_inicio',
+            "consultores"    => "required|array|min:1",
+            "consultores.*"  => "required|string|distinct|min:1"
+        ]);
     }
 }

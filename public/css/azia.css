@@ -8847,8 +8847,7 @@ a.text-dark:hover, a.text-dark:focus {
   position: relative;
   margin-bottom: 20px; }
   @media (min-width: 992px) {
-    .az-content-title {
-      margin-bottom: 40px; } }
+     }
 
 .az-content-label {
   color: #1c273c;

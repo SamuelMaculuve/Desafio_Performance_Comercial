@@ -9,6 +9,15 @@
         @include('inc.breadcrumb')
         <h2 class="az-content-title">{{ $titulo }} </h2>
 
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <form action="{{ route('con_desempenho_sub') }}" method="POST">
             @csrf
