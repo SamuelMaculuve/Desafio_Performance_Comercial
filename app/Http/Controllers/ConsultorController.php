@@ -26,21 +26,20 @@ class ConsultorController extends Controller
             $lista_mes = $this->meses();
 
             $rel_consultores = $this->rel_consultores($request);
-//             $this->rel_consultores($request);
-//
+
             return view('consultor.relatorio',compact('rel_consultores','lista_mes','date_inicio','date_fim','consultores','consultores_activos'));
 
         }elseif ($request->submitAction == "pizza"){
 
-            $resul_pizza = $this->consultor_pizza();
+            $resul_pizza = $this->consultor_pizza($request);
 
-            return view('consultor.consultor_pizza',compact('resul_pizza','date_inicio','date_fim'));
+            return view('consultor.consultor_pizza',compact('resul_pizza','date_inicio','date_fim','consultores','consultores_activos'));
 
         }elseif ($request->submitAction == "grafico"){
+                // TODO
+            $resul_grafico = $this->consultor_graf($request);
 
-            $consultores = $this->consultor_graf();
-
-            return view('consultor.consultor_graf',compact('consultores','date_inicio','date_fim'));
+            return view('consultor.consultor_graf',compact('resul_grafico','date_inicio','date_fim','consultores','consultores_activos'));
 
         }else{
 
@@ -68,23 +67,16 @@ class ConsultorController extends Controller
      */
     public function rel_consultores($request){
 
-        $consultores = $request->consultores;
-        $date_inicio = $request->date_inicio.'-01';
-        $date_fim = $request->date_fim.'-01';
-
-//        $consultores = $request->consultores;
-//        $date_inicio = $request->date_inicio.'-01';
-//        $date_fim = $request->date_fim.'-01';
         $rel_consultores =  DB::table('cao_fatura')
-            ->join('cao_os', function($join) use ($consultores)
+            ->join('cao_os', function($join) use ($request)
             {
                 $join->on('cao_fatura.co_os', '=','cao_os.co_os')
                     //TODO
-                    ->whereIn('cao_os.co_usuario', $consultores);
+                    ->whereIn('cao_os.co_usuario', $request->consultores);
             })
             ->join('cao_usuario', 'cao_usuario.co_usuario', '=', 'cao_os.co_usuario')
             ->join('cao_salario', 'cao_salario.co_usuario', '=', 'cao_os.co_usuario')
-            ->whereBetween('cao_fatura.data_emissao',['2007-01-01','2007-05-25'])
+            ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
             ->select(DB::raw('cao_fatura.valor as valor'),
                 DB::raw('cao_fatura.co_os as co_os'),
                 DB::raw('cao_salario.brut_salario as custo_fixo'),
@@ -106,21 +98,19 @@ class ConsultorController extends Controller
         ;
 
           return $rel_consultores;
-//        return view('consultor.relatorio',compact('rel_consultores','lista_mes'));
-//        dd($rel_consultores);
     }
     /**
      * Retorna uma lista, de dados de consultores. (De modo a gerar o Grafico)
      * @param $request
      * @return \Illuminate\Support\Collection
      */
-    public function consultor_graf(){
+    public function consultor_graf($request){
 
         $consultores =  DB::table('cao_fatura')
-            ->join('cao_os', function($join)
+            ->join('cao_os', function($join) use ($request)
             {
                 $join->on('cao_fatura.co_os', '=','cao_os.co_os')
-                    ->whereIn('cao_os.co_usuario', array('carlos.carvalho', 'carlos.arruda','luiz.paulo','marco.malaquias'));
+                    ->whereIn('cao_os.co_usuario', $request->consultores);
             })
             ->whereBetween('cao_fatura.data_emissao',['2007-01-25','2007-03-25'])
             ->orderBy('cao_os.co_usuario', 'asc')
@@ -135,15 +125,16 @@ class ConsultorController extends Controller
      * @param $request
      * @return \Illuminate\Support\Collection
      */
-    public function consultor_pizza(){
+
+    public function consultor_pizza($request){
 
         $resul_pizza =  DB::table('cao_fatura')
-            ->join('cao_os', function($join)
+            ->join('cao_os', function($join) use ($request)
             {
                 $join->on('cao_fatura.co_os', '=','cao_os.co_os')
-                    ->whereIn('cao_os.co_usuario', array('carlos.carvalho', 'carlos.arruda','luiz.paulo','marco.malaquias'));
+                    ->whereIn('cao_os.co_usuario', $request->consultores );
             })
-            ->whereBetween('cao_fatura.data_emissao',['2007-01-25','2007-03-25'])
+            ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
             ->orderBy('cao_os.co_usuario', 'asc')
             ->select(DB::raw('cao_os.co_usuario as name,(cao_fatura.valor - cao_fatura.total_imp_inc/100) as y'))
             ->groupBy('cao_os.co_usuario')
@@ -162,6 +153,10 @@ class ConsultorController extends Controller
         return  [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "junho", "julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
 
     }
+
+    /** Retorna a Collection dos consultores
+     * @return \Illuminate\Support\Collection
+     */
     public function consultores_lista()
     {
         $consultores =  DB::table('cao_usuario')
@@ -178,7 +173,12 @@ class ConsultorController extends Controller
             return $consultores;
     }
 
+    /**
+     * valida os dados submetidos sobre o formulario
+     * @param $request
+     */
     public function validador($request){
+
         $request->validate([
             'date_inicio' => 'required|date|after:date',
             'date_fim' => 'required|date|after:date_inicio',

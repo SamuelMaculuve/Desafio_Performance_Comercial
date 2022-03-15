@@ -9,16 +9,8 @@
 <div class="az-content-body pd-lg-l-40 d-flex flex-column">
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }}</h2>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-        <form action="{{ route('con_desempenho_sub') }}" method="POST">
+    @include('inc.error_msg')
+    <form action="{{ route('con_desempenho_sub') }}" method="POST">
             @csrf
             <div class="row row-sm mg-b-20">
                 <div class="col-lg-6">

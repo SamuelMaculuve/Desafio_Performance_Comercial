@@ -8,11 +8,23 @@
 <div class="az-content-body pd-lg-l-40 d-flex flex-column">
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }}</h2>
-
-    <div class="col-12">
-        <div id="chartContainer" style="height: 400px; width: 100%;"></div>
-    </div>
-
+    <!-- form de pesquisa -->
+    <form action="{{ route('con_desempenho_sub') }}" method="POST">
+    @csrf
+    <!-- campos de pesquisa -->
+    @include('inc.campos_pesquisa')
+    <!-- campos de pesquisa -->
+    @include('inc.btn_template')
+    <!-- row btn submit -->
+    </form>
+    <!-- form de pesquisa -->
+    @if(!$resul_pizza->isEmpty())
+        <div class="col-12">
+            <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+        </div>
+    @else
+       @include('inc.sem_resultado')
+    @endif
 
     <div class="ht-40"></div>
 
@@ -29,7 +41,7 @@
             exportEnabled: true,
             animationEnabled: true,
             title:{
-                text: "State Operating Funds"
+                text: ""
             },
             legend:{
 

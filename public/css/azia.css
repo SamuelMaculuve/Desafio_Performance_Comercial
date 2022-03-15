@@ -2187,7 +2187,7 @@ fieldset:disabled a.btn {
   border-radius: 0.2rem; }
 
 .btn-block {
-  display: block;
+  display: block !important;
   width: 100%; }
   .btn-block + .btn-block {
     margin-top: 0.5rem; }
