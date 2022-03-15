@@ -82,11 +82,12 @@ class ClienteController extends Controller
 
             ->orderBy('cao_cliente.no_fantasia', 'asc')
             ->groupBy('months','cao_fatura.co_cliente')
-            ->sum('sums as sum1')
+//            ->sum('sums as sum1')
             //            ->orderBy('cao_fatura.data_emissao')
             ->get();
 
-            return $consultores;
+//            return $consultores;
+        return view('cliente.grafico',compact('consultores'));
 
     }
 

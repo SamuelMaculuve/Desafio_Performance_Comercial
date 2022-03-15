@@ -1,8 +1,9 @@
 @extends('layouts.baseExtra')
 @php( $titulo = 'Por Consultor')
 @section('titulo',$titulo)
-<!-- content-left -->
+
 @section('conteudo')
+<!-- content-left -->
 @include('inc.content_left')
 <!-- content-left -->
 <div class="az-content-body pd-lg-l-40 d-flex flex-column">
@@ -22,16 +23,15 @@
                 </div><!-- col-4 -->
                 <div class="col-lg-3 mg-t-20 mg-lg-t-0">
                     <p class="mg-b-10 text-bold">Data de Inicio</p>
-                    <input class="form-control"  type="month"
-                           min="2003-01" value="2007-12" name="date_inicio" >
+                    <input class="form-control"  type="month" id="datePicker" required
+                           min="2003-01" value="{{ $date_inicio}}" name="date_inicio" >
                 </div><!-- col-4 -->
                 <div class="col-lg-3 mg-t-20 mg-lg-t-0">
                     <p class="mg-b-10">Data de Fim</p>
-                    <input class="form-control"  type="month"
-                           min="2003-01" value="2007-12" name="date_fim">
+                    <input class="form-control"  type="month" required
+                           min="2003-01" value="{{ $date_fim }}" name="date_fim">
 
                 </div><!-- col-4 -->
-
             </div><!-- row input-->
 
             <!-- row btn submit -->
@@ -40,5 +40,17 @@
         </form>
 
     </div><!-- content-body -->
+<script>
+    console.log("Bla*****2020************")
 
+    $(document).ready(function() {
+        console.log("Bla*****************")
+        console.log("Bla*******||||**********")
+        console.log("Bla*****************")
+        let now = new Date();
+        let today = now.getDate()  + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+        console.log(today);
+        $('#datePicker').val(today);
+    });
+</script>
 @endsection

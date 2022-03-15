@@ -13,7 +13,14 @@
     font-size: 14pt;
     font-weight: bold;
 }
-
+.icon-fail{
+    font-size: 120pt;
+    color: red;
+}
+.text-fail{
+    font-size: 25pt;
+    font-width: 900;
+}
 :root {
   --blue: #3366ff;
   --indigo: #5b47fb;

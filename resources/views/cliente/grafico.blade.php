@@ -1,6 +1,7 @@
 @extends('layouts.base')
 @php( $titulo = 'Relatório de Clientes')
 @section('titulo',$titulo)
+@section('conteudo')
 <!-- content-left -->
 @include('inc.content_left')
 <!-- content-left -->

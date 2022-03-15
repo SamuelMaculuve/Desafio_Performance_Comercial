@@ -5,7 +5,7 @@
     <!-- vendor css -->
     <link href="{{asset('lib/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
     <link href="{{asset('lib/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
-    <link href="{{asset('lib/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
+    <link href="{{asset('lib/typicons.font/typicons.css')}}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('extra/fonts/icomoon/style.css') }}">
 
