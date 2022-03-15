@@ -51,21 +51,41 @@ class ConsultorController extends Controller
 //dd($consultores);
     }
 
-    public function get_rel_clientes()
-    {
-        $consultores =  DB::table('cao_fatura')
+    public function rel_clientes(){
+
+        $lista_mes = [ "Janeiro", "February", "March", "Abril", "May", "Junho", "Jul", "August", "September", "October", "November", "December" ];
+
+        $rel_consultores =  DB::table('cao_fatura')
             ->join('cao_os', function($join)
             {
                 $join->on('cao_fatura.co_os', '=','cao_os.co_os')
                     //TODO
                     ->whereIn('cao_os.co_usuario', array('carlos.carvalho', 'carlos.arruda','luiz.paulo','marco.malaquias'));
             })
-            ->whereBetween('cao_fatura.data_emissao',['2007-01-25','2007-03-25'])
-            ->orderBy('cao_os.co_usuario', 'asc')
-            ->orderBy('cao_fatura.data_emissao')
-            ->get();
-        return view('consultores',compact('consultores'));
-//        dd($consultores);
+            ->join('cao_usuario', 'cao_usuario.co_usuario', '=', 'cao_os.co_usuario')
+            ->whereBetween('cao_fatura.data_emissao',['2007-01-01','2007-05-25'])
+            ->select(DB::raw('cao_fatura.valor as valor'),
+                DB::raw('cao_fatura.co_os as co_os'),
+                DB::raw('cao_usuario.no_usuario as nome_usuario'),
+                DB::raw('(cao_fatura.valor - cao_fatura.total_imp_inc/100) as receita_líquida'),
+                DB::raw('(cao_fatura.valor*cao_fatura.total_imp_inc/100*comissao_cn/100) as comissao'),
+//                DB::raw('(receita_líquida as lucro'),
+                DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%y') as ano"),
+                DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
+            ->orderBy('num_mes', 'asc')
+            ->groupBy('num_mes','cao_usuario.no_usuario')
+            ->get()
+            ->groupBy(function ($item){
+                return $item->nome_usuario;
+            })
+//            ->orderBy('cao_os.co_usuario', 'asc')
+//            ->orderBy('cao_fatura.data_emissao')
+//            ->get()
+        ;
+
+
+        return view('consultor.relatorio',compact('rel_consultores','lista_mes'));
+//        dd($rel_consultores);
     }
 
     public function consultor_graf(){

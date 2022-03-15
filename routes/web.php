@@ -28,7 +28,7 @@ Route::get('con_desempenho_cliente', 'rel_clientesClienteController@con_desempen
 
 Route::get('consultores', 'ConsultorController@getClientes');
 
-Route::get('get_rel_clientes', 'ConsultorController@get_rel_clientes');
+Route::get('get_rel_clientes', 'ConsultorController@rel_clientes');
 
 Route::get('consultor_graf', 'ConsultorController@consultor_graf');
 
