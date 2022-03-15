@@ -7,17 +7,35 @@ use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
+    public function con_desempenho_filtrar(Request $request)
+    {
+        if ($request->submitAction == "relatorio"){
+
+            $relatorio_clientes = $this->relatorio();
+
+            return view('cliente.relatorio',compact('relatorio_clientes'));
+
+        }elseif ($request->submitAction == "pizza"){
+
+            $pizza_clientes = $this->dados_pizza();
+            return view('cliente.pizza',compact('pizza_clientes'));
+
+        }elseif ($request->submitAction == "grafico"){
+
+            $consultores = $this->dados_grafico();
+            return view('cliente.grafico',compact('consultores'));
+
+        }else{
+
+            view('pagina_none');
+
+        }
+
+    }
     /**
      * Retorna a lista dos Lista de Consultores.
      *
      */
-    public function con_desempenho_sub(Request $request)
-    {
-
-        dd($request->basic);
-       // return view('consultor.con_desempenho',compact('consultores'));
-
-    }
     public function listar_clientes()
     {
         $clientes =  DB::table('cao_cliente')
@@ -47,8 +65,7 @@ class ClienteController extends Controller
             })
         ;
 
-         return view('cliente.relatorio',compact('relatorio_clientes'));
-
+        return $relatorio_clientes;
 
     }
 
@@ -69,7 +86,7 @@ class ClienteController extends Controller
             //            ->orderBy('cao_fatura.data_emissao')
             ->get();
 
-        return view('cliente.grafico',compact('consultores'));
+            return $consultores;
 
     }
 
@@ -87,7 +104,7 @@ class ClienteController extends Controller
             ->groupBy('name')
             ->get();
 
-        return view('cliente.pizza',compact('pizza_clientes'));
+        return $pizza_clientes;
 //        dd($pizza_clientes);
     }
 }

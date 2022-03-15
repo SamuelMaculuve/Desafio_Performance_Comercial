@@ -13,18 +13,27 @@ class ConsultorController extends Controller
      */
     public function con_desempenho_sub(Request $request)
     {
+//        dd($request->consultores);
         if ($request->submitAction == "relatorio"){
 
-            $this->get_rel_clientes();
+
+            $lista_mes = $this->meses();
+
+            $rel_consultores = $this->rel_clientes($request);
+
+            return view('consultor.relatorio',compact('rel_consultores','lista_mes'));
 
         }elseif ($request->submitAction == "pizza"){
 
+            $resul_pizza = $this->consultor_pizza();
 
-            $this->consultor_pizza();
+            return view('consultor.consultor_pizza',compact('resul_pizza'));
 
         }elseif ($request->submitAction == "grafico"){
 
-            $this->consultor_graf();
+            $consultores = $this->consultor_graf();
+
+            return view('consultor.consultor_graf',compact('consultores'));
 
         }else{
 
@@ -51,16 +60,21 @@ class ConsultorController extends Controller
 //dd($consultores);
     }
 
-    public function rel_clientes(){
+    public function rel_clientes($request){
 
-        $lista_mes = [ "Janeiro", "February", "March", "Abril", "May", "Junho", "Jul", "August", "September", "October", "November", "December" ];
+        $consultores = $request->consultores;
+        $date_inicio = $request->date_inicio.'-01';
+        $date_fim = $request->date_fim.'-01';
 
+//        $consultores = $request->consultores;
+//        $date_inicio = $request->date_inicio.'-01';
+//        $date_fim = $request->date_fim.'-01';
         $rel_consultores =  DB::table('cao_fatura')
-            ->join('cao_os', function($join)
+            ->join('cao_os', function($join) use ($consultores)
             {
                 $join->on('cao_fatura.co_os', '=','cao_os.co_os')
                     //TODO
-                    ->whereIn('cao_os.co_usuario', array('carlos.carvalho', 'carlos.arruda','luiz.paulo','marco.malaquias'));
+                    ->whereIn('cao_os.co_usuario', $consultores);
             })
             ->join('cao_usuario', 'cao_usuario.co_usuario', '=', 'cao_os.co_usuario')
             ->whereBetween('cao_fatura.data_emissao',['2007-01-01','2007-05-25'])
@@ -83,8 +97,8 @@ class ConsultorController extends Controller
 //            ->get()
         ;
 
-
-        return view('consultor.relatorio',compact('rel_consultores','lista_mes'));
+          return $rel_consultores;
+//        return view('consultor.relatorio',compact('rel_consultores','lista_mes'));
 //        dd($rel_consultores);
     }
 
@@ -101,7 +115,7 @@ class ConsultorController extends Controller
             ->orderBy('cao_fatura.data_emissao')
             ->get();
 
-        return view('consultor.consultor_graf',compact('consultores'));
+        return $consultores;
 //        dd($consultores);
     }
 
@@ -119,7 +133,13 @@ class ConsultorController extends Controller
             ->groupBy('cao_os.co_usuario')
             ->get();
 
-        return view('consultor.consultor_pizza',compact('resul_pizza'));
-//        dd($resul_pizza);
+        return  $resul_pizza;
+        //        dd($resul_pizza);
+    }
+
+    public function meses(){
+
+        return  [ "Janeiro", "February", "March", "Abril", "May", "Junho", "Jul", "August", "September", "October", "November", "December" ];
+
     }
 }

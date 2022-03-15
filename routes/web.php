@@ -20,7 +20,8 @@ Route::get('/none', function () {
     return view('pagina_none');
 })->name('none');
 
-Route::get('con_desempenho_sub', 'ConsultorController@con_desempenho_sub')->name('con_desempenho_sub');
+// submeter dados para os relatorios, graficos e pizza
+Route::post('con_desempenho_sub', 'ConsultorController@con_desempenho_sub')->name('con_desempenho_sub');
 
 Route::get('con_desempenho', 'ConsultorController@con_desempenho')->name('con_desempenho');
 
@@ -35,7 +36,7 @@ Route::get('consultor_graf', 'ConsultorController@consultor_graf');
 Route::get('consultor_pizza', 'ConsultorController@consultor_pizza');
 
 //
-
+Route::post('con_desempenho_filtrar', 'ClienteController@con_desempenho_filtrar')->name('con_desempenho_filtrar');
 Route::get('listar_clientes', 'ClienteController@listar_clientes')->name('cliente');
 Route::get('pizza_client', 'ClienteController@dados_pizza')->name('pizza_client');
 Route::get('graf_client', 'ClienteController@dados_grafico')->name('graf_client');

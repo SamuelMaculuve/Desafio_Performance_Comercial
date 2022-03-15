@@ -8,7 +8,7 @@
         @include('inc.breadcrumb')
         <h2 class="az-content-title">Por Cliente</h2>
 
-        <form action="{{ route('con_desempenho_sub') }}" method="GET">
+        <form action="{{ route('con_desempenho_filtrar') }}" method="POST">
             @csrf
             <div class="row row-sm mg-b-20">
                 <div class="col-lg-6">
