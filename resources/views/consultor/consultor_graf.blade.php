@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@php( $titulo = 'Relatório de Clientes')
+@php( $titulo = 'Relatório de Consultores')
 @section('titulo',$titulo)
 @section('conteudo')
 <!-- content-left -->
@@ -9,6 +9,7 @@
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }}</h2>
     <!-- form de pesquisa -->
+    @include('inc.error_msg')
     <form action="{{ route('con_desempenho_sub') }}" method="POST">
     @csrf
     <!-- campos de pesquisa -->

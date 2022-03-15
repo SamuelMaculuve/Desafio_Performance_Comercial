@@ -39,6 +39,7 @@ class ConsultorController extends Controller
                 // TODO
             $resul_grafico = $this->consultor_graf($request);
 
+//            dd($resul_grafico);
             return view('consultor.consultor_graf',compact('resul_grafico','date_inicio','date_fim','consultores','consultores_activos'));
 
         }else{
@@ -112,10 +113,19 @@ class ConsultorController extends Controller
                 $join->on('cao_fatura.co_os', '=','cao_os.co_os')
                     ->whereIn('cao_os.co_usuario', $request->consultores);
             })
-            ->whereBetween('cao_fatura.data_emissao',['2007-01-25','2007-03-25'])
-            ->orderBy('cao_os.co_usuario', 'asc')
-            ->orderBy('cao_fatura.data_emissao')
-            ->get();
+            ->join('cao_usuario', 'cao_usuario.co_usuario', '=', 'cao_os.co_usuario')
+            ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
+            ->select(DB::raw("DATE_FORMAT(,'%m') as num_mes"))
+            ->select(DB::raw("SUM(cao_fatura.valor - (cao_fatura.total_imp_inc/100)) as total_soma, MONTH( cao_fatura.data_emissao ) as num_mes"))
+            ->orderBy('num_mes', 'asc')
+            ->groupBy('num_mes','cao_usuario.no_usuario')
+            ->get()
+            ->groupBy(DB::raw('total_soma ASC'));
+//            ->get()
+//            ->groupBy(function ($item){
+//                return $item->nome_usuario;
+//            });
+                ;
 
           return $consultores;
 

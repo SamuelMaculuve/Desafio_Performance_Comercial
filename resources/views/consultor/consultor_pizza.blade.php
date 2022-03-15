@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@php( $titulo = 'Pizza de Clientes')
+@php( $titulo = 'Pizza de Consultores')
 @section('titulo',$titulo)
 @section('conteudo')
 <!-- content-left -->
@@ -8,6 +8,7 @@
 <div class="az-content-body pd-lg-l-40 d-flex flex-column">
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }}</h2>
+    @include('inc.error_msg')
     <!-- form de pesquisa -->
     <form action="{{ route('con_desempenho_sub') }}" method="POST">
     @csrf

@@ -8,10 +8,22 @@
 <div class="az-content-body pd-lg-l-40 d-flex flex-column">
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }}</h2>
+    @include('inc.error_msg')
+    <form action="{{ route('con_desempenho_filtrar') }}" method="POST">
+    @csrf
+    @include('inc.campos_pesquisa_cliente')
+    <!-- row btn submit -->
+    @include('inc.btn_template')
+    <!-- row btn submit -->
+    </form>
+    @if(!$resul_grafico->isEmpty())
+        <div class="col-12">
+            <div class="ht-200 ht-lg-250"><canvas id="chartBar1"></canvas></div>
+        </div>
+    @else
+        @include('inc.sem_resultado')
+    @endif
 
-    <div class="col-12">
-        <div class="ht-200 ht-lg-250"><canvas id="chartBar1"></canvas></div>
-    </div>
 
 </div><!-- content-body -->
 <script>

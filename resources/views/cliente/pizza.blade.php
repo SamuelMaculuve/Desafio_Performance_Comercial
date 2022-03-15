@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@php( $titulo = 'Pizza')
+@php( $titulo = 'Pizza de Clientes')
 @section('titulo',$titulo)
 @section('conteudo')
 <!-- content-left -->
@@ -8,10 +8,21 @@
 <div class="az-content-body pd-lg-l-40 d-flex flex-column">
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }}</h2>
-
-    <div class="col-12">
-        <div id="chartContainer" style="height: 400px; width: 100%;"></div>
-    </div>
+    @include('inc.error_msg')
+    <form action="{{ route('con_desempenho_filtrar') }}" method="POST">
+    @csrf
+    @include('inc.campos_pesquisa_cliente')
+    <!-- row btn submit -->
+    @include('inc.btn_template')
+    <!-- row btn submit -->
+    </form>
+    @if(!$pizza_clientes->isEmpty())
+        <div class="col-12">
+            <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+        </div>
+    @else
+        @include('inc.sem_resultado')
+    @endif
 
     <div class="ht-40"></div>
 
