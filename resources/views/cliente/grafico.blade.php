@@ -16,6 +16,7 @@
     @include('inc.btn_template')
     <!-- row btn submit -->
     </form>
+
     @if(!$resul_grafico->isEmpty())
         <div class="col-12 pt-5">
             <div class="chartjs-wrapper-demo"><canvas id="chartLine1"></canvas></div>
@@ -35,20 +36,7 @@ window.onload = function () {
         datasets: []
     };
 
-    for (var i = 0; i < grafico_clientes.length; i++) {
-        console.log("ppp->"+grafico_clientes[i])
-        console.log("ppp->"+grafico_clientes[i])
-        console.log("ppp->"+grafico_clientes[i])
-        console.log("ppp->"+grafico_clientes[i])
-        console.log("ppp->"+grafico_clientes[i])
-        barChartData.datasets.push(
-            {
-                label: 'Dataset ' + (i+1),
-                backgroundColor: colors[i % colors.length],
-                data: Object.values(grafico_clientes[i])
-            }
-        )
-    }
+
     var ctx8 = document.getElementById('chartLine1');
     new Chart(ctx8, {
         type: 'line',

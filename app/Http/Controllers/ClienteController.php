@@ -39,8 +39,8 @@ class ClienteController extends Controller
         }elseif ($request->submitAction == "grafico"){
 
             $resul_grafico = $this->dados_grafico($request);
-            dd($resul_grafico);
-//            return view('cliente.grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
+
+            return view('cliente.grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
 
         }else{
 
@@ -88,29 +88,22 @@ class ClienteController extends Controller
 
     public function dados_grafico($request){
 
-        $consultores =  DB::table('cao_fatura')
+        $clientes =  DB::table('cao_fatura')
             ->join('cao_cliente', function($join) use ($request)
             {
                 $join->on('cao_fatura.co_cliente', '=','cao_cliente.co_cliente')
                     ->whereIn('cao_fatura.co_cliente', $request->clientes);
             })
             ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
-            ->select(DB::raw('sum(cao_fatura.valor) as sums'))
+            ->select(DB::raw('cao_cliente.no_fantasia as nome_cliente'),DB::raw('(cao_fatura.valor - cao_fatura.total_imp_inc/100) as sums'),DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
             ->orderBy('cao_fatura.co_cliente')
+            ->groupBy('num_mes','cao_cliente.no_fantasia')
             ->get()
-            ->groupBy(DB::raw('MONTH(cao_fatura.data_emissao)'))
-            ;
-//            ->groupBy('num_mes','cao_cliente.no_fantasia')
-//            ->get()
-//            ->groupBy(function ($item){
-//                return $item->nome_cliente;
-//            });
-//        $user_list = DB::table('users')
-//            ->select('name','email','created_at')
-//            ->orderBy('created_at')
-//            ->groupBy(DB::raw('MONTH(created_at)'))
-//            ->get();
-            return $consultores;
+            ->groupBy(function ($item){
+                return $item->nome_cliente;
+            });
+
+            return $clientes;
 
     }
 

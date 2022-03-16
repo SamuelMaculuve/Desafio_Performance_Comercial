@@ -15,7 +15,7 @@
         <li class="nav-item">
             <a href="{{ asset('none') }}" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i>  Administrativo </a>
         </li>
-        <li class="nav-item active show">
+        <li class="nav-item">
             <a href="{{ asset('con_desempenho') }}" class="nav-link"><i class="typcn typcn-archive"></i> Comercial </a>
         </li>
         <li class="nav-item">
