@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.baseExtra')
 @php( $titulo = 'Relatório de Consultores')
 @section('titulo',$titulo)
 @section('conteudo')
@@ -10,14 +10,9 @@
     <h2 class="az-content-title"> {{ $titulo }}</h2>
     <!-- form de pesquisa -->
     @include('inc.error_msg')
-    <form action="{{ route('con_desempenho_sub') }}" method="POST">
-    @csrf
-    <!-- campos de pesquisa -->
-    @include('inc.campos_pesquisa')
-    <!-- campos de pesquisa -->
-    @include('inc.btn_template')
-    <!-- row btn submit -->
-    </form>
+    <!-- form de pesquisa -->
+        @include('inc.form_consultores')
+    <!-- form de pesquisa -->
     <!-- form de pesquisa -->
     @if(!$resul_grafico->isEmpty())
         <div class="col-12 mt-5">

@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.baseExtra')
 @php( $titulo = 'Pizza de Clientes')
 @section('titulo',$titulo)
 @section('conteudo')
@@ -9,13 +9,9 @@
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }}</h2>
     @include('inc.error_msg')
-    <form action="{{ route('con_desempenho_filtrar') }}" method="POST">
-    @csrf
-    @include('inc.campos_pesquisa_cliente')
-    <!-- row btn submit -->
-    @include('inc.btn_template')
-    <!-- row btn submit -->
-    </form>
+    <!-- form de pesquisa -->
+        @include('inc.form_cliente')
+    <!-- form de pesquisa -->
     @if(!$pizza_clientes->isEmpty())
         <div class="col-12 mt-5">
             <div id="chartContainer" style="height: 400px; width: 100%;"></div>

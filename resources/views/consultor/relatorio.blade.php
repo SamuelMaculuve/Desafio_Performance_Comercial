@@ -11,14 +11,9 @@
 
         @include('inc.error_msg')
 
-        <form action="{{ route('con_desempenho_sub') }}" method="POST">
-            @csrf
-            <!-- campos de pesquisa -->
-            @include('inc.campos_pesquisa')
-            <!-- campos de pesquisa -->
-            @include('inc.btn_template')
-        <!-- row btn submit -->
-        </form>
+        <!-- form de pesquisa -->
+            @include('inc.form_consultores')
+        <!-- form de pesquisa -->
 
         @forelse ($rel_consultores as $nome_usuario => $relatorio_consultores)
             @php( $saldo_receita_líquida = 0)

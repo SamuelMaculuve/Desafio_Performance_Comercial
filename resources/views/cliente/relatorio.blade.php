@@ -8,7 +8,10 @@
     <div class="az-content-body pd-lg-l-40 d-flex flex-column">
         @include('inc.breadcrumb')
         <h2 class="az-content-title">{{ $titulo }}</h2>
-
+        @include('inc.error_msg')
+        <!-- form de pesquisa -->
+            @include('inc.form_cliente')
+        <!-- form de pesquisa -->
         <table class="table">
             @foreach ($relatorio_clientes as $nome_cliente => $relatorio_cliente)
                 @php( $count_por_cliente = 0)

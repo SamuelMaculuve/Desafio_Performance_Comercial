@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.baseExtra')
 @php( $titulo = 'Grafico de Clientes')
 @section('titulo',$titulo)
 @section('conteudo')
@@ -9,13 +9,9 @@
     @include('inc.breadcrumb')
     <h2 class="az-content-title"> {{ $titulo }} </h2>
     @include('inc.error_msg')
-    <form action="{{ route('con_desempenho_filtrar') }}" method="POST">
-        @csrf
-    @include('inc.campos_pesquisa_cliente')
-    <!-- row btn submit -->
-    @include('inc.btn_template')
-    <!-- row btn submit -->
-    </form>
+    <!-- form de pesquisa -->
+        @include('inc.form_cliente')
+    <!-- form de pesquisa -->
 
     @if(!$resul_grafico->isEmpty())
         <div class="col-12 pt-5">
@@ -30,20 +26,28 @@
 <script>
 window.onload = function () {
     /* LINE CHART */
-    var grafico_clientes =  <?php echo $resul_grafico ?>;
+    grafico_clientes : [];
+    grafico_clientes =  <?php echo $resul_grafico ?>;
+
     console.log("grafico_clientes->",grafico_clientes)
+
+    grafico_clientes.f
+
     var barChartData = {
         datasets: []
     };
-
-
+    console.log(grafico_clientes.myProperty);   // "foo"
+    console.log(Object.keys(grafico_clientes)); // ["myProperty"]
+    for (let letter of grafico_clientes) {
+        console.log(letter);
+    }
     var ctx8 = document.getElementById('chartLine1');
     new Chart(ctx8, {
         type: 'line',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 
-            datasets: grafico_clientes,
+            datasets: barChartData,
         },
         options: {
             maintainAspectRatio: false,

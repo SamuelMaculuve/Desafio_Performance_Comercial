@@ -17,10 +17,11 @@ class ConsultorController extends Controller
         $this->validador($request);
 
         $consultores = $this->consultores_lista();
-        // array de consultores selecionados
-        $consultores_activos = "";
-        $date_inicio = $request->date_inicio;
-        $date_fim = $request->date_fim;
+
+        //colocando os dados na sessao
+        \Session::put('consultores_activos', $request->consultores);
+        \Session::put('date_inicio_activo', $request->date_inicio);
+        \Session::put('date_fim_activo', $request->date_fim);
 
         if ($request->submitAction == "relatorio"){
 
@@ -28,20 +29,20 @@ class ConsultorController extends Controller
 
             $rel_consultores = $this->rel_consultores($request);
 
-            return view('consultor.relatorio',compact('rel_consultores','lista_mes','date_inicio','date_fim','consultores','consultores_activos'));
+            return view('consultor.relatorio',compact('rel_consultores','lista_mes','consultores'));
 
         }elseif ($request->submitAction == "pizza"){
 
             $resul_pizza = $this->consultor_pizza($request);
 
-            return view('consultor.consultor_pizza',compact('resul_pizza','date_inicio','date_fim','consultores','consultores_activos'));
+            return view('consultor.consultor_pizza',compact('resul_pizza','consultores'));
 
         }elseif ($request->submitAction == "grafico"){
                 // TODO
             $resul_grafico = $this->consultor_graf($request);
 
 //            dd($resul_grafico);
-            return view('consultor.consultor_graf',compact('resul_grafico','date_inicio','date_fim','consultores','consultores_activos'));
+            return view('consultor.consultor_graf',compact('resul_grafico','consultores'));
 
         }else{
 
@@ -176,7 +177,7 @@ class ConsultorController extends Controller
                 $join->on('cao_usuario.co_usuario', '=','permissao_sistema.co_usuario')
                     ->where('permissao_sistema.co_sistema', '=', 1)
                     ->where('permissao_sistema.in_ativo', '=', 'S')
-                    ->whereIn('permissao_sistema.co_tipo_usuario', array(1, 2, 3));
+                    ->whereIn('permissao_sistema.co_tipo_usuario', array(0, 1, 2));
             })
             ->select('cao_usuario.co_usuario', 'cao_usuario.no_usuario')
             ->get();
