@@ -90,8 +90,7 @@ class ConsultorController extends Controller
                 DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
             ->orderBy('num_mes', 'asc')
             ->groupBy('num_mes','cao_usuario.no_usuario')
-//            ->get()
-            ->paginate(10)
+            ->get()
             ->groupBy(function ($item){
                 return $item->nome_usuario;
             })

@@ -71,7 +71,7 @@
             </tbody>
 
         </table>
-
+{{--            {{ $rel_consultores->links() }}--}}
 
         @empty
             @include('inc.sem_resultado')
