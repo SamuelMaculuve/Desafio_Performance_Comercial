@@ -41,15 +41,15 @@
                 @php( $lucro = $rel_consultor->receita_líquida - ($rel_consultor->custo_fixo+$rel_consultor->comissao))
             <tr bgcolor="#fafafa">
                 <td nowrap="">{{ $lista_mes[intval(substr($rel_consultor->num_mes,0,2))] }} 20{{$rel_consultor->ano }}</td>
-                <td><div align="right"> R$ {{ $rel_consultor->receita_líquida }}</div></td>
-                <td><div align="right"> R$ {{ $rel_consultor->custo_fixo }} </div></td>
-                <td><div align="right"> R$ {{ $rel_consultor->comissao}}</div></td>
+                <td><div align="right"> R$ {{ number_format($rel_consultor->receita_líquida , 2, '.', '') }}</div></td>
+                <td><div align="right"> R$ {{ number_format($rel_consultor->custo_fixo , 2, '.', '') }} </div></td>
+                <td><div align="right"> R$ {{ number_format($rel_consultor->comissao , 2, '.', '') }} </div></td>
                 <td>
                     <div align="right">
                         @if($lucro < 0)
-                        <font color="#FF0000"> {{ $lucro }}</font>
+                        <font color="#FF0000"> {{ number_format($lucro , 2, '.', '') }}</font>
                         @else
-                            <font > {{ $lucro }}</font>
+                            <font >{{ number_format($lucro , 2, '.', '') }}</font>
                         @endif
 
                     </div>
@@ -63,10 +63,10 @@
             @endforeach
             <tr bgcolor="#fafafa">
                 <td nowrap=""><div align="center"><strong>Saldo</strong></div></td>
-                <td><div align="center"><strong>R$ {{ $saldo_receita_líquida }}</strong></div></td>
-                <td><div align="center"><strong>R$ {{ $saldo_custo_fixo }} </strong></div></td>
-                <td><div align="center"><strong>R$ {{ $saldo_comissao }}</strong></div></td>
-                <td><div align="center"><strong>R$ {{ $saldo_lucro }}</strong></div></td>
+                <td><div align="center"><strong>R$ {{ number_format($saldo_receita_líquida  , 2, '.', '') }}</strong></div></td>
+                <td><div align="center"><strong>R$ {{ number_format($saldo_custo_fixo  , 2, '.', '') }} </strong></div></td>
+                <td><div align="center"><strong>R$ {{ number_format($saldo_comissao  , 2, '.', '') }}</strong></div></td>
+                <td><div align="center"><strong>R$ {{ number_format($saldo_lucro  , 2, '.', '') }}</strong></div></td>
             </tr>
             </tbody>
 
