@@ -37,8 +37,6 @@ class ClienteController extends Controller
 //            dd($resul_grafico);
             return view('cliente.grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
 
-//            return view('cliente.client_grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
-
         }else{
 
             view('pagina_none');
@@ -72,7 +70,6 @@ class ClienteController extends Controller
             ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
             ->select(DB::raw('cao_cliente.no_fantasia as nome_cliente'),DB::raw('(cao_fatura.valor - cao_fatura.total_imp_inc/100) as sums'),DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
             ->orderBy('num_mes', 'asc')
-//            ->orderBy('cao_cliente.no_fantasia', 'asc')
             ->groupBy('num_mes','cao_fatura.co_cliente')
             ->get()
             ->groupBy(function ($item){
@@ -93,21 +90,13 @@ class ClienteController extends Controller
                     ->whereIn('cao_fatura.co_cliente', $request->clientes);
             })
             ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
-//            ->select(DB::raw('sum(cao_fatura.valor) as sums'))
             ->select(DB::raw('cao_cliente.no_fantasia as nome_cliente'),DB::raw('sum(cao_fatura.valor) as sums'),DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
-//
-//            ->orderBy('cao_cliente.no_fantasia', 'asc')
-//            ->groupBy('months')
-
             ->orderBy('num_mes', 'asc')
-//            ->orderBy('cao_cliente.no_fantasia', 'asc')
             ->groupBy('num_mes','cao_cliente.no_fantasia')
             ->get()
             ->groupBy(function ($item){
                 return $item->nome_cliente;
-            })
-
-        ;
+            });
 
             return $consultores;
 
