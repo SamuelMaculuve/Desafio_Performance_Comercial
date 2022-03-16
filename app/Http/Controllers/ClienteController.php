@@ -7,13 +7,18 @@ use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
+    /**
+     * Recebe o Request, Lista dos consultores, data inicio e data fim.
+     * E em funcao disso, retorna, o relatorio, a pizza , ou grafico ou uma pagina "none"
+     * caso nao seja nenhuma das 3 opcoes
+     */
     public function con_desempenho_filtrar(Request $request)
     {
         $this->validador($request);
 
         $clientes = $this->lista_clientes();
         // clientes marcados no formulario
-        $clientes_activos = $request->clientes;
+        $clientes_activos = "";
         $date_inicio = $request->date_inicio;
         $date_fim = $request->date_fim;
 

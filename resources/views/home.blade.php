@@ -3,7 +3,7 @@
 @section('titulo',$titulo)
 @section('conteudo')
 
-    <div class="az-content-body">
+    <div class="az-content-body pt-5 mt-5">
         <h2 class="az-dashboard-title text-center">
             Protótipo para Avaliação de Candidato.
         </h2>

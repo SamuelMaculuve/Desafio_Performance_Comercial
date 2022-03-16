@@ -17,7 +17,8 @@ class ConsultorController extends Controller
         $this->validador($request);
 
         $consultores = $this->consultores_lista();
-        $consultores_activos = $request->consultores;
+        // array de consultores selecionados
+        $consultores_activos = "";
         $date_inicio = $request->date_inicio;
         $date_fim = $request->date_fim;
 

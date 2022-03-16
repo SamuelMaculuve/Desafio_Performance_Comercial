@@ -7,10 +7,7 @@
             @empty
 
             @endforelse
-            @forelse ($clientes_activos as $key =>  $cliente_activo)
-                <option value="{{ $cliente_activo }}" selected>{{ $cliente_activo }}</option>
-            @empty
-            @endforelse
+
         </select>
     </div><!-- col-4 -->
     <div class="col-lg-3 mg-t-20 mg-lg-t-0">

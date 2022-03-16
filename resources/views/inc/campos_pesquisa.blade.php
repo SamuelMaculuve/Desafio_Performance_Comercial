@@ -2,11 +2,6 @@
     <div class="col-lg-6">
         <p class="mg-b-10">Selecione o Consultor</p>
         <select name="consultores[]" multiple="multiple" class="3col active form-control">
-            @forelse ($consultores_activos as $key =>  $consultor_activo)
-                <option value="{{ $consultor_activo }}" selected>{{ $consultor_activo }}</option>
-            @empty
-
-            @endforelse
             @forelse ($consultores as $consultor)
                 <option value="{{ $consultor->co_usuario }}">{{ $consultor->no_usuario }}</option>
             @empty
