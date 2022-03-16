@@ -39,7 +39,7 @@
             exportEnabled: true,
             animationEnabled: true,
             title:{
-                text: "State Operating Funds"
+                text: ""
             },
             legend:{
 

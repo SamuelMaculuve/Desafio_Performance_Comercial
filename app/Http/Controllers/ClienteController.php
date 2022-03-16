@@ -34,8 +34,10 @@ class ClienteController extends Controller
         }elseif ($request->submitAction == "grafico"){
 
             $resul_grafico = $this->dados_grafico($request);
-
+//            dd($resul_grafico);
             return view('cliente.grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
+
+//            return view('cliente.client_grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
 
         }else{
 
@@ -72,7 +74,7 @@ class ClienteController extends Controller
             ->orderBy('num_mes', 'asc')
 //            ->orderBy('cao_cliente.no_fantasia', 'asc')
             ->groupBy('num_mes','cao_fatura.co_cliente')
-            ->paginate(15)
+            ->get()
             ->groupBy(function ($item){
                 return $item->nome_cliente;
             })
@@ -87,20 +89,27 @@ class ClienteController extends Controller
         $consultores =  DB::table('cao_fatura')
             ->join('cao_cliente', function($join) use ($request)
             {
-                $join->on('cao_fatura.co_cliente', '=','cao_cliente.co_cliente');
-//                    ->whereIn('cao_fatura.co_cliente', array(6947,3,5,4,2));
+                $join->on('cao_fatura.co_cliente', '=','cao_cliente.co_cliente')
+                    ->whereIn('cao_fatura.co_cliente', $request->clientes);
             })
             ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
-            ->select(DB::raw('cao_cliente.no_fantasia as nome'),DB::raw('sum(cao_fatura.valor) as sums'),DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as months"))
+//            ->select(DB::raw('sum(cao_fatura.valor) as sums'))
+            ->select(DB::raw('cao_cliente.no_fantasia as nome_cliente'),DB::raw('sum(cao_fatura.valor) as sums'),DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
+//
+//            ->orderBy('cao_cliente.no_fantasia', 'asc')
+//            ->groupBy('months')
 
-            ->orderBy('cao_cliente.no_fantasia', 'asc')
-            ->groupBy('months','cao_fatura.co_cliente')
-//            ->sum('sums as sum1')
-            //            ->orderBy('cao_fatura.data_emissao')
-            ->get();
+            ->orderBy('num_mes', 'asc')
+//            ->orderBy('cao_cliente.no_fantasia', 'asc')
+            ->groupBy('num_mes','cao_cliente.no_fantasia')
+            ->get()
+            ->groupBy(function ($item){
+                return $item->nome_cliente;
+            })
 
-//            return $consultores;
-        return view('cliente.grafico',compact('consultores'));
+        ;
+
+            return $consultores;
 
     }
 
@@ -109,8 +118,8 @@ class ClienteController extends Controller
         $pizza_clientes =  DB::table('cao_fatura')
             ->join('cao_cliente', function($join) use ($request)
             {
-                $join->on('cao_fatura.co_cliente', '=','cao_cliente.co_cliente');
-//                    ->whereIn('cao_fatura.co_cliente', array(6947,3,5,4,2));
+                $join->on('cao_fatura.co_cliente', '=','cao_cliente.co_cliente')
+                    ->whereIn('cao_fatura.co_cliente', $request->clientes);
             })
             ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
             ->select(DB::raw('cao_cliente.no_fantasia as name'),DB::raw('(cao_fatura.valor - cao_fatura.total_imp_inc/100) as y'),DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
@@ -119,7 +128,6 @@ class ClienteController extends Controller
             ->get();
 
         return $pizza_clientes;
-//        dd($pizza_clientes);
     }
 
     /**

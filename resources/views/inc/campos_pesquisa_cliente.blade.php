@@ -2,12 +2,12 @@
     <div class="col-lg-6">
         <p class="mg-b-10">Selecione o Consultor</p>
         <select name="clientes[]" multiple="multiple" class="3col active form-control">
-            @forelse ($clientes as $key =>  $cliente)
+            @forelse ($clientes as  $cliente)
                 <option value="{{ $cliente->co_cliente }}">{{ $cliente->no_fantasia }}</option>
             @empty
 
             @endforelse
-            @forelse ($clientes_activos as $cliente_activo)
+            @forelse ($clientes_activos as $key =>  $cliente_activo)
                 <option value="{{ $cliente_activo }}" selected>{{ $cliente_activo }}</option>
             @empty
             @endforelse
