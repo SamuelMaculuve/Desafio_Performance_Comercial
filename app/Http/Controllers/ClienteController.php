@@ -39,8 +39,8 @@ class ClienteController extends Controller
         }elseif ($request->submitAction == "grafico"){
 
             $resul_grafico = $this->dados_grafico($request);
-//            dd($resul_grafico);
-            return view('cliente.grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
+            dd($resul_grafico);
+//            return view('cliente.grafico',compact('resul_grafico','clientes','clientes_activos','date_inicio','date_fim'));
 
         }else{
 
@@ -95,14 +95,21 @@ class ClienteController extends Controller
                     ->whereIn('cao_fatura.co_cliente', $request->clientes);
             })
             ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
-            ->select(DB::raw('cao_cliente.no_fantasia as nome_cliente'),DB::raw('sum(cao_fatura.valor) as sums'),DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as num_mes"))
-            ->orderBy('num_mes', 'asc')
-            ->groupBy('num_mes','cao_cliente.no_fantasia')
+            ->select(DB::raw('sum(cao_fatura.valor) as sums'))
+            ->orderBy('cao_fatura.co_cliente')
             ->get()
-            ->groupBy(function ($item){
-                return $item->nome_cliente;
-            });
-
+            ->groupBy(DB::raw('MONTH(cao_fatura.data_emissao)'))
+            ;
+//            ->groupBy('num_mes','cao_cliente.no_fantasia')
+//            ->get()
+//            ->groupBy(function ($item){
+//                return $item->nome_cliente;
+//            });
+//        $user_list = DB::table('users')
+//            ->select('name','email','created_at')
+//            ->orderBy('created_at')
+//            ->groupBy(DB::raw('MONTH(created_at)'))
+//            ->get();
             return $consultores;
 
     }

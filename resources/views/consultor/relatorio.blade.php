@@ -71,6 +71,8 @@
             </tbody>
 
         </table>
+
+
         @empty
             @include('inc.sem_resultado')
         @endforelse

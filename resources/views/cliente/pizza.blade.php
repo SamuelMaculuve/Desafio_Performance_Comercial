@@ -17,7 +17,7 @@
     <!-- row btn submit -->
     </form>
     @if(!$pizza_clientes->isEmpty())
-        <div class="col-12">
+        <div class="col-12 mt-5">
             <div id="chartContainer" style="height: 400px; width: 100%;"></div>
         </div>
     @else
