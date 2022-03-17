@@ -4,7 +4,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800");
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800");
 #ms-list-1 {
-    border: 1px solid #596882;
+    border: 1px solid #cdd4e0;
 }
 .chart-color-1{
     color: #ffffff;
@@ -2309,7 +2309,12 @@ input[type="button"].btn-block {
   .dropdown-menu-xl-right {
     right: 0;
     left: auto; } }
-
+#display-mobile{
+    display: none !important;
+}
+.ms-options-wrap > button:focus, .ms-options-wrap > button {
+    height: 35px;
+}
 .dropup .dropdown-menu {
   top: auto;
   bottom: 100%;

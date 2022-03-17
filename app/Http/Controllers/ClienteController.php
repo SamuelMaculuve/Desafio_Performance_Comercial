@@ -18,7 +18,7 @@ class ClienteController extends Controller
 
         $clientes = $this->lista_clientes();
 
-        \Session::put('clientes_activos', $request->clientes);
+        \Session::push('clientes_activos', $request->clientes);
         \Session::put('date_inicio_activo', $request->date_inicio);
         \Session::put('date_fim_activo', $request->date_fim);
         if ($request->submitAction == "relatorio"){
@@ -39,9 +39,9 @@ class ClienteController extends Controller
 
             $resul_grafico = $this->dados_grafico($request);
 
-            dd($resul_grafico);
-
-//            return view('cliente.grafico',compact('resul_grafico','clientes'));
+//            dd($resul_grafico);
+//
+            return view('cliente.grafico',compact('resul_grafico','clientes'));
 
         }else{
 

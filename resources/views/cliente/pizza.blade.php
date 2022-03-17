@@ -55,12 +55,12 @@
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <style>
-    button {
-        display: none !important;
-    }
-    .canvasjs-chart-credit {
-         display: none !important;
-     }
+    /*button {*/
+    /*    display: none !important;*/
+    /*}*/
+    /*.canvasjs-chart-credit {*/
+    /*     display: none !important;*/
+    /* }*/
 
 </style>
 @endsection
