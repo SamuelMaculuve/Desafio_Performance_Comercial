@@ -29,18 +29,16 @@ window.onload = function () {
     grafico_clientes : [];
     grafico_clientes =  <?php echo $resul_grafico ?>;
 
-    console.log("grafico_clientes->",grafico_clientes)
-
-    grafico_clientes.f
+    // console.log("grafico_clientes->",grafico_clientes)
 
     var barChartData = {
         datasets: []
     };
-    console.log(grafico_clientes.myProperty);   // "foo"
-    console.log(Object.keys(grafico_clientes)); // ["myProperty"]
-    for (let letter of grafico_clientes) {
-        console.log(letter);
-    }
+    // console.log(grafico_clientes.myProperty);   // "foo"
+    // console.log(Object.keys(grafico_clientes)); // ["myProperty"]
+    // for (let letter of grafico_clientes) {
+    //     console.log(letter);
+    // }
     var ctx8 = document.getElementById('chartLine1');
     new Chart(ctx8, {
         type: 'line',

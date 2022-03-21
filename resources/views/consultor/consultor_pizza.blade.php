@@ -24,6 +24,10 @@
 
 </div><!-- content-body -->
 <script>
+
+//    $resul_grafico = json_encode($this->consultor_graf($request)[null]);
+//
+//    dd($this->consultor_graf($request)[null]);
     {{--var resul_pizza1 =  <?php echo json_encode($resul_pizza) ?>;--}}
     // Recebe os valores passados pela view, e com isso criar o grafico PIE
     var resul_pizza =  <?php echo $resul_pizza ?>;
@@ -55,12 +59,6 @@
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <style>
-    button {
-        display: none !important;
-    }
-    .canvasjs-chart-credit {
-         display: none !important;
-     }
 
 </style>
 @endsection

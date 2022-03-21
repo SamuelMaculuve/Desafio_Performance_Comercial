@@ -2,11 +2,13 @@
     <div class="col-lg-6">
         <p class="mg-b-10">Selecione o Cliente</p>
         <select name="clientes[]" multiple="multiple" class="3col active form-control">
-        @forelse ($clientes as  $cliente)
-                <option value="{{ $cliente->co_cliente }}">{{ $cliente->no_fantasia }}</option>
-        @empty
+        @foreach ($clientes_activos as  $cliente)
+                <option value="{{ $cliente->co_cliente }}" selected>{{ $cliente->no_fantasia }}</option>
+        @endforeach
 
-        @endforelse
+        @foreach ($clientes as  $cliente)
+                <option value="{{ $cliente->co_cliente }}">{{ $cliente->no_fantasia }}</option>
+        @endforeach
 
         </select>
     </div><!-- col-4 -->

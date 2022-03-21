@@ -45,6 +45,7 @@
 
 <script src="{{ asset('extra/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('extra/js/popper.min.js') }}"></script>
+<script src="{{ asset('lib/chart.js/Chart.bundle.min.js') }}"></script>
 <script src="{{ asset('extra/js/jquery.multiselect.js') }}"></script>
 <script src="{{ asset('extra/js/main.js') }}"></script>
 <script src="{{ asset('extra/js/bootstrap.min.js') }}"></script>
