@@ -65,13 +65,13 @@
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 
             title: {
-                text: "House Median Price"
+                text: ""
             },
             axisX: {
                 valueFormatString: "MMM YYYY"
             },
             axisY2: {
-                title: "Median List Price",
+                title: "",
                 prefix: "$",
                 suffix: "K"
             },
@@ -87,8 +87,8 @@
             },
             data: [{
                 type:"line",
-                axisYType: "secondary",
-                name: "San Fransisco",
+                axisYType: "",
+                name: "",
                 showInLegend: true,
                 markerSize: 0,
                 yValueFormatString: "$#,###k",
@@ -138,8 +138,8 @@
     },
         {
             type: "line",
-                axisYType: "secondary",
-            name: "Manhattan",
+                axisYType: "",
+            name: "",
             showInLegend: true,
             markerSize: 0,
             yValueFormatString: "$#,###k",
@@ -189,8 +189,8 @@
         },
         {
             type: "line",
-                axisYType: "secondary",
-            name: "Seatle",
+                axisYType: "",
+            name: "",
             showInLegend: true,
             markerSize: 0,
             yValueFormatString: "$#,###k",
@@ -240,8 +240,8 @@
         },
         {
             type: "line",
-                axisYType: "secondary",
-            name: "Los Angeles",
+                axisYType: "",
+            name: "",
             showInLegend: true,
             markerSize: 0,
             yValueFormatString: "$#,###k",
