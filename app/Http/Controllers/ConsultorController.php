@@ -121,7 +121,7 @@ class ConsultorController extends Controller
             ->whereBetween('cao_fatura.data_emissao',[$request->date_inicio.'-01',$request->date_fim.'-01'])
             ->select(
                 DB::raw("cao_fatura.data_emissao as x"),
-                DB::raw('cao_fatura.valor as y'),
+                DB::raw('cao_fatura.valor*cao_fatura.total_imp_inc/100*comissao_cn/100) as y'),
                 DB::raw("DATE_FORMAT(cao_fatura.data_emissao,'%m') as w"))
             ->orderBy('w', 'asc')
 //            ->makeHidden(['w'])
